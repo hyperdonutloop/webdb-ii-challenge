@@ -27,7 +27,7 @@ router.get('/:id', (req, res) => {
     })
 })
 
-router.post('/', (req, res) => {
+router.post('/', validatenInformation, (req, res) => {
   const carData = req.body;
 
   knex('cars').insert(carData)
@@ -72,4 +72,16 @@ router.delete('/:id', (req, res) => {
       res.status(500).json({ errorMessage: 'Error deleting car 🚙', error })
     })
 })
+
+// custom middleware for validation 
+
+function validatenInformation(req, res, next) {
+  const carInfo = req.body;
+
+  if(!carInfo.vin || !carInfo.make || !carInfo.model || !carInfo.mileage) {
+    res.status(400).json({ errorMessage: 'Please provide vin, make, model, and mileage for car' })
+  } else {
+    next();
+  }
+}
 module.exports = router;
