@@ -16,7 +16,6 @@ exports.up = function(knex) {
     tbl.integer('mileage')
       .notNullable();
 
-
     tbl.string('transmission_type');
 
     tbl.boolean('salvage').defaultTo(false);
